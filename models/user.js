@@ -30,18 +30,18 @@ userSchema.pre("save", async function (next) {
     this.password = hashedPassword;
     return next();
   } catch (err) {
-    return next(err)
+    return next(err);
   }
-})
+});
 
-userSchema.method.comparePassowrd = async function (passwordEntered, next) {
+userSchema.methods.comparePassword = async function (enteredPassword, next) {
   try {
-    let isMatch = await bcrypt.compare(passwordEntered, this.password);
+    let isMatch = await bcrypt.compare(enteredPassword, this.password);
     return isMatch;
   } catch (err) {
     return next(err);
   }
-}
+};
 
 const User = mongoose.model("User", userSchema);
 
