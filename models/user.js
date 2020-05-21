@@ -18,7 +18,15 @@ const userSchema = new mongoose.Schema({
   },
   profileImageUrl: {
     type: String
-  }
+  },
+  selections: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Selection'
+  }],
+  messages: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Message'
+  }]
 });
 
 userSchema.pre("save", async function (next) {
@@ -36,6 +44,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.comparePassword = async function (enteredPassword, next) {
   try {
+    //this.password refers to individual document from the db
     let isMatch = await bcrypt.compare(enteredPassword, this.password);
     return isMatch;
   } catch (err) {
